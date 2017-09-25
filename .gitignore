@@ -1,5 +1,6 @@
 /build
 /external
+.clang
 
 # Created by https://www.gitignore.io/api/c++,vim
 
@@ -51,4 +52,16 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/c++,vim
+### CMake ###
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+build
+
+# End of https://www.gitignore.io/api/cmake
