@@ -1,4 +1,6 @@
 /build
+/bin
+/include/tp2/defines.hpp
 /external
 .clang
 
