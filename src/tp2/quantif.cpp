@@ -1,4 +1,3 @@
-
 #include "tp2/common.hpp"
 
 using namespace tp2;
