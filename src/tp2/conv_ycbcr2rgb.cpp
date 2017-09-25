@@ -19,4 +19,24 @@ void tp2::conv_ycbcr2rgb(const cv::Mat_<uchar>& Y,
 	RGB.create(Y.size(), CV_8UC3);
 
 	// @@@@ TODO (do not use built-in functions here!)
+
+	for(int row = 0; row < RGB.rows; ++row)
+	{
+		for(int col = 0; col < RGB.cols; ++col)
+		{
+
+			uchar y = Y.at<uchar>(row, col);
+			uchar cb = Cb.at<uchar>(row, col);
+			uchar cr = Cr.at<uchar>(row, col);
+
+			// Blue
+			RGB.at<cv::Vec3b>(row, col)[0] = y + 1.773*(cb-128);
+
+			// Green
+			RGB.at<cv::Vec3b>(row, col)[1] = y - 0.714*(cr-128) - 0.344*(cb-128);
+
+			// Red
+			RGB.at<cv::Vec3b>(row, col)[2] = y + 1.403*(cr-128);
+		}
+	}
 }

@@ -16,4 +16,19 @@ void tp2::conv_rgb2ycbcr(const cv::Mat& RGB,
 	// Cb.create(/*...*/);
 	// Cr.create(/*...*/);
 	// ...
+
+	for(int row = 0; row < RGB.rows; ++row)
+	{
+		for(int col = 0; col < RGB.cols; ++col)
+		{
+			uint8_t b = RGB.at<cv::Vec3b>(row, col)[0];
+			uint8_t g = RGB.at<cv::Vec3b>(row, col)[1];
+			uint8_t r = RGB.at<cv::Vec3b>(row, col)[2];
+
+			uchar y =0.299*r + 0.587*g + 0.114*b;
+			Y.at<uchar>(row, col) = y;
+			Cb.at<uchar>(row, col) = 128 + 0.564*(b-y);
+			Cr.at<uchar>(row, col) = 128 + 0.713*(r-y);
+		}
+	}
 }
