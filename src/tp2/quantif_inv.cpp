@@ -215,7 +215,20 @@ cv::Mat_<float> tp2::quantif_inv(const cv::Mat_<short>& oBlock, int nQualityFact
 	const cv::Mat_<float>& oQuantifMat = s_mQuantMats.at(nClosestQualityFactor);
 	cv::Mat_<float> oOutput(oBlock.size());
 
-	// @@@@ TODO (fill oOutput)
+	{
+		auto block_it = oBlock.begin();
+		auto output_it = oOutput.begin();
+		auto quantif_matrix_it = oQuantifMat.begin();
+
+		while(block_it != oBlock.end()) {
+
+			*output_it = *block_it * *quantif_matrix_it;
+
+			++block_it;
+			++quantif_matrix_it;
+			++output_it;
+		}
+	}
 
 	return oOutput;
 }

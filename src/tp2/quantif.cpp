@@ -211,10 +211,23 @@ cv::Mat_<short> tp2::quantif(const cv::Mat_<float>& oBlock, int nQualityFactor) 
 		                         std::abs(nQualityFactor - nClosestQualityFactor))
 		                                ? pMapIter->first
 		                                : nClosestQualityFactor;
+
 	const cv::Mat_<float>& oQuantifMat = s_mQuantMats.at(nClosestQualityFactor);
 	cv::Mat_<short> oOutput(oBlock.size());
 
-	// @@@@ TODO (fill oOutput)
+	{
+		auto block_it = oBlock.begin(), quantif_matrix_it = oQuantifMat.begin();
+		auto output_it = oOutput.begin();
+
+		while(block_it != oBlock.end()) {
+
+			*output_it = *block_it / *quantif_matrix_it;
+
+			++block_it;
+			++quantif_matrix_it;
+			++output_it;
+		}
+	}
 
 	return oOutput;
 }
