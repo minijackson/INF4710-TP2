@@ -4,17 +4,17 @@ using namespace tp2;
 
 // Quake!
 // http://h14s.p5r.org/2012/09/0x5f3759df.html
-//float fast_inverse_sqrt(float x) {
-	//float xhalf = 0.5f * x;
-	//int i       = *(int*)&x;             // evil floating point bit level hacking
-	//i           = 0x5f3759df - (i >> 1); // what the fuck?
-	//x           = *(float*)&i;
-	//return x * (1.5f - (xhalf * x * x));
-//}
-
-double fast_inverse_sqrt(double x) {
-	return 1 / std::sqrt(x);
+float fast_inverse_sqrt(float x) {
+	float xhalf = 0.5f * x;
+	int i       = *(int*)&x;             // evil floating point bit level hacking
+	i           = 0x5f3759df - (i >> 1); // what the fuck?
+	x           = *(float*)&i;
+	return x * (1.5f - (xhalf * x * x));
 }
+
+//double fast_inverse_sqrt(double x) {
+	//return 1 / std::sqrt(x);
+//}
 
 double c(int w, int n) {
 	if(w == 0) {
