@@ -1,4 +1,3 @@
-
 #include "tp2/common.hpp"
 
 using namespace tp2;
@@ -10,19 +9,15 @@ std::vector<cv::Mat_<uchar>> tp2::decoup(const cv::Mat_<uchar>& oImage) {
 	          (oImage.cols % nBlockSize) == 0 && oImage.isContinuous());
 	std::vector<cv::Mat_<uchar>> vOutput;
 
-	for(int i = 0; i < oImage.cols; i += 8)
-	{
-		for(int j = 0; j < oImage.rows; j += 8)
-		{
-			cv::Mat_<uchar> block8x8(8,8);
+	for(int i = 0; i < oImage.cols; i += 8) {
+		for(int j = 0; j < oImage.rows; j += 8) {
+			cv::Mat_<uchar> block8x8(8, 8);
 
-			for(size_t iBlock = 0; iBlock < nBlockSize; iBlock++)
-			{
-				for(size_t jBlock = 0; jBlock < nBlockSize; jBlock++)
-				{
-					if( (i+iBlock < oImage.cols) && (j+jBlock < oImage.rows) )
-					{
-						block8x8.at<uchar>(iBlock, jBlock) = oImage.at<uchar>(i+iBlock, j+jBlock);
+			for(size_t iBlock = 0; iBlock < nBlockSize; iBlock++) {
+				for(size_t jBlock = 0; jBlock < nBlockSize; jBlock++) {
+					if((i + iBlock < oImage.cols) && (j + jBlock < oImage.rows)) {
+						block8x8.at<uchar>(iBlock, jBlock) =
+						        oImage.at<uchar>(i + iBlock, j + jBlock);
 					}
 				}
 			}

@@ -91,7 +91,8 @@ std::array<short, tp2::s_nVectorSize> tp2::zigzag(const cv::Mat_<short>& oBlock)
 	return aZigzag;
 }
 
-bool try_go(Direction const dir, size_t& x, size_t& y, size_t width, size_t height) {
+// Sneaky inversion of "x" and "y"
+bool try_go(Direction const dir, size_t& y, size_t& x, size_t width, size_t height) {
 	switch(dir) {
 		case Direction::LEFT:
 			if(x == 0) {
@@ -127,8 +128,8 @@ bool try_go(Direction const dir, size_t& x, size_t& y, size_t width, size_t heig
 
 		case Direction::DOWN_LEFT: {
 			auto old_x = x, old_y = y;
-			bool success = try_go(Direction::DOWN, x, y, width, height) &&
-			               try_go(Direction::LEFT, x, y, width, height);
+			bool success = try_go(Direction::DOWN, y, x, width, height) &&
+			               try_go(Direction::LEFT, y, x, width, height);
 			if(!success) {
 				x = old_x;
 				y = old_y;
@@ -138,8 +139,8 @@ bool try_go(Direction const dir, size_t& x, size_t& y, size_t width, size_t heig
 
 		case Direction::UP_RIGHT: {
 			auto old_x = x, old_y = y;
-			bool success = try_go(Direction::UP, x, y, width, height) &&
-			               try_go(Direction::RIGHT, x, y, width, height);
+			bool success = try_go(Direction::UP, y, x, width, height) &&
+			               try_go(Direction::RIGHT, y, x, width, height);
 			if(!success) {
 				x = old_x;
 				y = old_y;
