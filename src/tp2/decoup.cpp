@@ -12,5 +12,25 @@ std::vector<cv::Mat_<uchar>> tp2::decoup(const cv::Mat_<uchar>& oImage) {
 
 	// @@@@ TODO (fill vOutput)
 
+	for(int i = 0; i < oImage.cols; i+=8)
+	{
+		cv::Mat_<uchar> block8x8;
+		for(int j = 0; j < oImage.rows; j+=8)
+		{
+
+			for(int iBlock = 0; i < nBlockSize; iBlock++)
+			{
+				for(int jBlock = 0; j < nBlockSize; jBlock++)
+				{
+					if( (i+iBlock < oImage.cols) && (j+jBlock < oImage.rows) )
+					{
+						block8x8.at<cv::Vec3b>(i,j) = oImage.at<cv::Vec3b>(i+iBlock,j+jBlock);
+					}
+				}
+			}
+		}
+		vOutput.push_back(block8x8);
+	}
+
 	return vOutput;
 }
