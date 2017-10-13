@@ -10,26 +10,25 @@ std::vector<cv::Mat_<uchar>> tp2::decoup(const cv::Mat_<uchar>& oImage) {
 	          (oImage.cols % nBlockSize) == 0 && oImage.isContinuous());
 	std::vector<cv::Mat_<uchar>> vOutput;
 
-	// @@@@ TODO (fill vOutput)
-
-	for(int i = 0; i < oImage.cols; i+=8)
+	for(int i = 0; i < oImage.cols; i += 8)
 	{
-		cv::Mat_<uchar> block8x8;
-		for(int j = 0; j < oImage.rows; j+=8)
+		for(int j = 0; j < oImage.rows; j += 8)
 		{
+			cv::Mat_<uchar> block8x8(8,8);
 
-			for(int iBlock = 0; i < nBlockSize; iBlock++)
+			for(size_t iBlock = 0; iBlock < nBlockSize; iBlock++)
 			{
-				for(int jBlock = 0; j < nBlockSize; jBlock++)
+				for(size_t jBlock = 0; jBlock < nBlockSize; jBlock++)
 				{
 					if( (i+iBlock < oImage.cols) && (j+jBlock < oImage.rows) )
 					{
-						block8x8.at<cv::Vec3b>(i,j) = oImage.at<cv::Vec3b>(i+iBlock,j+jBlock);
+						block8x8.at<uchar>(iBlock, jBlock) = oImage.at<uchar>(i+iBlock, j+jBlock);
 					}
 				}
 			}
+
+			vOutput.push_back(block8x8);
 		}
-		vOutput.push_back(block8x8);
 	}
 
 	return vOutput;

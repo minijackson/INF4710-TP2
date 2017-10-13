@@ -13,7 +13,21 @@ cv::Mat_<uchar> tp2::decoup_inv(const std::vector<cv::Mat_<uchar>>& vBlocks,
 	          (oImageSize.width % nBlockSize) == 0);
 	cv::Mat_<uchar> oOutput(oImageSize);
 
-	// @@@@ TODO (fill oOutput)
+	int blockSize = vBlocks[0].rows;
+	for(size_t i = 0; i < vBlocks.size(); ++i)
+	{
+		int nbBlocksPerLine = oImageSize.width /8;
+		int xOffset = (i/nbBlocksPerLine) * 8;
+		int yOffset = (i%nbBlocksPerLine)*8;
+
+		for(int iBlock = 0; iBlock < blockSize; ++iBlock)
+		{
+			for(int jBlock = 0; jBlock < blockSize; ++jBlock)
+			{
+				oOutput.at<uchar>(xOffset+iBlock, yOffset+jBlock) = vBlocks[i].at<uchar>(iBlock, jBlock);
+			}
+		}
+	}
 
 	return oOutput;
 }
