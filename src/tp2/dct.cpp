@@ -43,9 +43,9 @@ cv::Mat_<float> tp2::dct(const cv::Mat_<uchar>& oBlock) {
 				for(int y = 0; y < oBlock.cols; ++y) {
 
 					double color     = oBlock.at<uchar>(x, y);
-					double first_cos = std::cos((M_PI * (2.0 * x + 1.0)) * u / (2.0 * oBlock.rows));
+					double first_cos = std::cos(u * M_PI * (2.0 * x + 1.0) / (2.0 * oBlock.rows));
 					double second_cos =
-					        std::cos((M_PI * (2.0 * y + 1.0)) * v / (2.0 * oBlock.rows));
+					        std::cos(v * M_PI * (2.0 * y + 1.0) / (2.0 * oBlock.rows));
 
 					sum += color * first_cos * second_cos;
 				}

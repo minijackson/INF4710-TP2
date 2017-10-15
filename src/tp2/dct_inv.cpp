@@ -28,15 +28,23 @@ cv::Mat_<uchar> tp2::dct_inv(const cv::Mat_<float>& oBlock) {
 				for(int v = 0; v < oBlock.cols; ++v) {
 
 					double color     = oBlock.at<float>(u, v);
-					double first_cos = std::cos((M_PI * (2.0 * x + 1.0)) * u / (2.0 * oBlock.rows));
+					double first_cos = std::cos(u * M_PI * (2 * x + 1) / (2.0 * oBlock.rows));
 					double second_cos =
-					        std::cos((M_PI * (2.0 * y + 1.0)) * v / (2.0 * oBlock.rows));
+					        std::cos(v * M_PI * (2 * y + 1) / (2.0 * oBlock.rows));
 
 					value += c(u, oBlock.rows) * c(v, oBlock.rows) * color * first_cos * second_cos;
 				}
 			}
 
-			oOutput.at<uchar>(x, y) = std::round(value);
+			value = std::round(value);
+
+			if(value > 255.0) {
+				value = 255.0;
+			} else if(value < 0.0) {
+				value = 0.0;
+			}
+
+			oOutput.at<uchar>(x, y) = value;
 		}
 	}
 
