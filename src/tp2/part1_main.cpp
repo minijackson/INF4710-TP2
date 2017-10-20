@@ -8,8 +8,8 @@
 #include "tp2/common.hpp"
 
 // you have to test all configurations by modifying the parameters below!
-#define USE_SUBSAMPLING 1
-#define USE_QUANT_QUALITY 10
+#define USE_SUBSAMPLING 0
+#define USE_QUANT_QUALITY 100
 
 int main(int /*argc*/, char** /*argv*/) {
 	try {
@@ -76,6 +76,13 @@ int main(int /*argc*/, char** /*argv*/) {
 			const tp2::HuffOutput oCode = tp2::huff::encode(vInlinedBlocks);
 
 			// @@@@ TODO: check compression rate here...
+			size_t const origSize = oInput.total() * oInput.elemSize(), finalSize = oCode.size();
+
+			std::cout << "Taille d'origine: " << origSize << std::endl;
+			std::cout << "Taille finale: " << finalSize << std::endl;
+			std::cout << "Taux de compression: "
+			          << (1 - (static_cast<float>(finalSize) / static_cast<float>(origSize)))
+			          << std::endl;
 
 			////////////////////////
 			// DECOMPRESSION BELOW

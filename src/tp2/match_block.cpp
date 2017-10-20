@@ -1,7 +1,22 @@
-
 #include "tp2/common.hpp"
 
+#include <limits>
+
 using namespace tp2;
+
+double calcEQM(cv::Mat_<uchar> const& ref, cv::Mat_<uchar> const& target) {
+	double sum = 0;
+
+	auto ref_it = ref.begin(), ref_end = ref.end(), target_it = target.begin();
+	while(ref_it != ref_end) {
+		sum += std::pow(*ref_it - *target_it, 2);
+
+		++ref_it;
+		++target_it;
+	}
+
+	return sum / (ref.rows * ref.cols);
+}
 
 // match_block: finds the best match for a block in a given image region by minimizing mean squared
 // error (EQM)
@@ -25,6 +40,26 @@ cv::Point2i tp2::match_block(const cv::Mat_<uchar>& oBlock,
 	CV_Assert(oSearchImage.rows > nBlockSize && oSearchImage.cols > nBlockSize);
 	cv::Point2i vOutputDir; // this is a direction vector; it should sometimes also contain negative
 	                        // values!
+
+	dEQM_min = std::numeric_limits<double>::max();
+
+	size_t endX = std::min(oSearchRegion.x + oSearchRegion.width - oBlock.cols, oSearchImage.cols),
+	       endY = std::min(oSearchRegion.y + oSearchRegion.height - oBlock.rows, oSearchImage.cols);
+
+	for(size_t x = oSearchRegion.x; x < endX; ++x) {
+		for(size_t y = oSearchRegion.y; y < endY; ++y) {
+			cv::Rect currentBlockArea(x, y, oBlock.cols, oBlock.rows);
+			cv::Mat_<uchar> currentBlock = oSearchImage(currentBlockArea);
+
+			double currentEQM = calcEQM(oBlock, currentBlock);
+
+			if(currentEQM < dEQM_min) {
+				dEQM_min = currentEQM;
+				vOutputDir = cv::Point2i{x, y} - oBlockPos;
+			}
+
+		}
+	}
 
 	// @@@@ TODO (hint: make sure operations around borders wont crash your implementation!)
 	// note1: top-left corner of image is x,y=<0,0> origin; therefore...

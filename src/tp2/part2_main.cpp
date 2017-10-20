@@ -17,6 +17,7 @@ int main(int /*argc*/, char** /*argv*/) {
 
 		cv::Mat oFrame;
 		oSequence >> oFrame;
+		cvtColor(oFrame, oFrame, CV_RGB2GRAY);
 		CV_Assert(!oFrame.empty() && oFrame.type() == CV_8UC1 &&
 		          oFrame.size() == cv::Size(256, 256));
 
@@ -69,6 +70,7 @@ int main(int /*argc*/, char** /*argv*/) {
 			cv::imshow("next frame", oFrame_display_next);
 			cv::waitKey(0);
 			oSequence >> oFrame;
+			cvtColor(oFrame, oFrame, CV_RGB2GRAY);
 		}
 		return 0;
 	} catch(const cv::Exception& e) {
