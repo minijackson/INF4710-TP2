@@ -1,0 +1,33 @@
+      Image, Qualité, Taux de compression, Subsampling
+
+   airplane,      10,            0.861656,           0
+     baboon,      10,            0.856559,           0
+  cameraman,      10,            0.863602,           0
+       lena,      10,            0.861788,           0
+       logo,      10,            0.860606,           0
+ logo_noise,      10,            0.860591,           0
+    peppers,      10,            0.859802,           0
+
+   airplane,      50,            0.835964,           0
+     baboon,      50,            0.798292,           0
+  cameraman,      50,            0.841893,           0
+       lena,      50,            0.836295,           0
+       logo,      50,            0.835531,           0
+ logo_noise,      50,            0.833288,           0
+    peppers,      50,            0.830945,           0
+
+   airplane,      90,            0.761538,           0
+     baboon,      90,            0.622941,           0
+  cameraman,      90,            0.786138,           0
+       lena,      90,            0.743954,           0
+       logo,      90,            0.781092,           0
+ logo_noise,      90,            0.761347,           0
+    peppers,      90,            0.733286,           0
+
+   airplane,     100,            0.516520,           0
+     baboon,     100,            0.278754,           0
+  cameraman,     100,            0.652201,           0
+       lena,     100,            0.445311,           0
+       logo,     100,            0.685308,           0
+ logo_noise,     100,            0.604741,           0
+    peppers,     100,            0.421280,           0
