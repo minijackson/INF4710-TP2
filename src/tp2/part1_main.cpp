@@ -9,9 +9,22 @@
 
 // you have to test all configurations by modifying the parameters below!
 #define USE_SUBSAMPLING 1
-#define USE_QUANT_QUALITY 10
+#define USE_QUANT_QUALITY 50
 
 int main(int /*argc*/, char** /*argv*/) {
+
+	//auto a = cv::Mat_<float>(16,16);
+	//std::iota(a.begin(), a.end(), 0.0f);
+	//std::cout << a << std::endl;
+	//std::vector<cv::Mat_<uchar>> test = tp2::decoup(a);
+
+	//for(auto i : test)
+	//{
+		//std::cout << i << std::endl;
+	//}
+
+	//std::cout << tp2::decoup_inv(test, {16, 16}) << std::endl;
+
 	try {
 		// note: by default, imread always returns 3-ch images unless the cv::IMREAD_GRAYSCALE flag
 		// is set (here we hardcode it based on prior knowledge)
