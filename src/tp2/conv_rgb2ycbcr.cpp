@@ -35,38 +35,71 @@ void tp2::conv_rgb2ycbcr(const cv::Mat& RGB,
 
 	double cb = 0, cr = 0;
 
-	for(int row = 0; row < RGB.rows; ++row) {
+	int increment = 1;
+	if(bSubsample) {
+		increment = 2;
+	}
 
-		for(int col = 0; col < RGB.cols; ++col) {
+	for(int row = 0; row < RGB.rows; row += increment) {
+		for(int col = 0; col < RGB.cols; col += increment) {
 			uint8_t b = RGB.at<cv::Vec3b>(row, col)[0];
 			uint8_t g = RGB.at<cv::Vec3b>(row, col)[1];
 			uint8_t r = RGB.at<cv::Vec3b>(row, col)[2];
 
-			uchar y = rgb2y(r, g, b);
-
-			Y.at<uchar>(row, col) = y;
+			Y.at<uchar>(row, col) = rgb2y(r, g, b);
 
 			if(bSubsample) {
+				uint8_t b2 = 0, g2 = 0, r2 = 0, b3 = 0, g3 = 0, r3 = 0, b4 = 0, g4 = 0, r4 = 0;
+				int moyCount = 1;
 
-				if(row % 2 == 0 && col % 2 == 0) {
-					cb = 0;
-					cr = 0;
-					std::cout << "Initialization" << std::endl;
+				cb = rgb2cb(r, g, b);
+				cr = rgb2cr(r, g, b);
+
+				if(col+1 < RGB.cols)
+				{
+					b2 = RGB.at<cv::Vec3b>(row, col+1)[0];
+					g2 = RGB.at<cv::Vec3b>(row, col+1)[1];
+					r2 = RGB.at<cv::Vec3b>(row, col+1)[2];
+
+					Y.at<uchar>(row, col+1) = rgb2y(r2, g2, b2);
+
+					cb += rgb2cb(r2, g2, b2);
+					cr += rgb2cr(r2, g2, b2);
+
+					++moyCount;
+				}
+				if(row+1 < RGB.rows)
+				{
+					b3 = RGB.at<cv::Vec3b>(row+1, col)[0];
+					g3 = RGB.at<cv::Vec3b>(row+1, col)[1];
+					r3 = RGB.at<cv::Vec3b>(row+1, col)[2];
+
+					Y.at<uchar>(row+1, col) = rgb2y(r3, g3, b3);
+
+					cb += rgb2cb(r3, g3, b3);
+					cr += rgb2cr(r3, g3, b3);
+
+					++moyCount;
+				}
+				if(col+1 < RGB.cols && row+1 < RGB.rows)
+				{
+					b4 = RGB.at<cv::Vec3b>(row+1, col+1)[0];
+					g4 = RGB.at<cv::Vec3b>(row+1, col+1)[1];
+					r4 = RGB.at<cv::Vec3b>(row+1, col+1)[2];
+
+					Y.at<uchar>(row+1, col+1) = rgb2y(r4, g4, b4);
+
+					cb += rgb2cb(r4, g4, b4);
+					cr += rgb2cr(r4, g4, b4);
+
+					++moyCount;
 				}
 
-				cb += rgb2cb(r, g, b);
-				cr += rgb2cr(r, g, b);
-				std::cout << "cb = " << cb << ", cr = " << cr << std::endl;
+				cb /= moyCount;
+				cr /= moyCount;
 
-				if(row % 2 == 1 && col % 2 == 1) {
-					cb /= 4.0;
-					cr /= 4.0;
-
-					std::cout << "Mean: cb = " << cb << ", cr = " << cr << std::endl;
-
-					Cb.at<uchar>(row / 2, col / 2) = std::round(cb);
-					Cr.at<uchar>(row / 2, col / 2) = std::round(cr);
-				}
+				Cb.at<uchar>(row / 2, col / 2) = std::round(cb);
+				Cr.at<uchar>(row / 2, col / 2) = std::round(cr);
 
 			} else {
 				Cb.at<uchar>(row, col) = std::round(rgb2cb(r, g, b));

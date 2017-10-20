@@ -36,7 +36,7 @@ void tp2::conv_ycbcr2rgb(const cv::Mat_<uchar>& Y,
 			RGB.at<cv::Vec3b>(row, col)[0] = std::max(std::round(y + 1.772 * (cb - 128)), 0.0);
 			// Green
 			RGB.at<cv::Vec3b>(row, col)[1] =
-			        std::max(std::round(y - 0.344136 * (cb - 128) - 0.714136 * (cr - 128)), 0.0);
+					std::max(std::round(y - 0.344136 * (cb - 128) - 0.714136 * (cr - 128)), 0.0);
 			// Red
 			RGB.at<cv::Vec3b>(row, col)[2] = std::max(std::round(y + 1.402 * (cr - 128)), 0.0);
 		}
